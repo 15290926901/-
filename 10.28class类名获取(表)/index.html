@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表盘</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            background: #eeeeee;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="1000" height="800" class="rotate"></canvas>
+    <script>
+        //获取画布对象
+            //[数据1，数据2，数据3，...数据n]
+            //arr[0]
+            //["cav"]
+			var cav=document.getElementsByClassName("rotate")[0];
+			var cgt=cav.getContext("2d");
+            //窗口弹出
+            //alert(cav.width);
+            //控制台输出
+       		//console.log(cav.height);
+            /* if(cav.width==cav.height){
+                alert("相等")
+            }else{
+                alert("不等")
+            }; */
+			function fun(){
+				//表盘
+				var date=new Date();
+				var hour=date.getHours();      //获取当前的小时
+				var min=date.getMinutes();     //获取分针数
+				var second=date.getSeconds();  //获取秒数
+				console.log("当前小时为:"+hour+"当前的分针数:"+min+"当前秒数:"+second);
+				
+				cgt.clearRect(0,0,1000,800);      //清空画布
+				//大圆
+				cgt.beginPath();
+				cgt.lineWidth=3;
+				cgt.strokeStyle="black";
+				cgt.arc(400,400,200,0,360,false);
+				cgt.stroke();
+				cgt.closePath();
+				//圆心
+				cgt.beginPath();
+				cgt.lineWidth=3;
+				cgt.fillStyle="black";
+				cgt.arc(400,400,10,0,360,false);
+				cgt.fill();
+				cgt.closePath();
+				
+				//时刻度
+				cgt.save();
+				cgt.beginPath();
+				cgt.translate(400,400);
+				cgt.fillStyle="black";
+				cgt.fillRect(180,-5,15,10);
+				cgt.closePath();
+				cgt.restore();
+				
+				for(var i=0;i<12;i++){
+					cgt.save();
+					cgt.beginPath();
+					cgt.translate(400,400);
+					cgt.rotate(Math.PI/6*i); 
+					cgt.fillStyle="black";
+					cgt.fillRect(180,-5,15,10);
+					cgt.closePath();
+					cgt.restore();
+				}
+				//分刻度
+				cgt.save();
+				cgt.beginPath();
+				cgt.translate(400,400);
+				cgt.fillStyle="black";
+				cgt.fillRect(185,-2.5,10,5);
+				cgt.closePath();
+				cgt.restore();
+				for(var i=0;i<60;i++){
+					cgt.save();
+					cgt.beginPath();
+					cgt.translate(400,400);
+					cgt.rotate(Math.PI/30*i);
+					cgt.fillStyle="black";
+					cgt.fillRect(185,-2.5,10,5);
+					cgt.closePath();
+					cgt.restore();
+				}
+				//时针
+				cgt.save();//存储
+				cgt.beginPath();
+				cgt.translate(400,400);
+				cgt.rotate(Math.PI/6*hour);         //旋转 
+				cgt.fillStyle="black";
+				cgt.fillRect(-5,-90,10,100);
+				cgt.closePath();
+				cgt.restore();
+				//分针
+				cgt.save();//存储
+				cgt.beginPath();
+				cgt.translate(400,400);
+				 cgt.rotate(Math.PI/30*min);         //旋转 
+				cgt.fillStyle="orange";
+				cgt.fillRect(-3,-120,6,140);
+				cgt.closePath();
+				cgt.restore();
+				//秒针
+				cgt.save();//存储
+				cgt.beginPath();
+				cgt.translate(400,400);
+				cgt.rotate(Math.PI/30*second);         //旋转
+				cgt.fillStyle="red";
+				cgt.fillRect(-2,-150,4,180);
+				cgt.closePath();
+				cgt.restore();
+			}
+			fun();
+			setInterval(fun,1000);
+    </script>
+</body>
+</html>
